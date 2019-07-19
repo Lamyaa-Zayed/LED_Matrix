@@ -32,6 +32,20 @@ unsigned char Numbers_To_Display[BCD_Numbers][Column_Numbers]={
 unsigned char Minutes,Hours,Seconds;
 unsigned int Adjustment_Delay;
 
+void Display_Secs(unsigned char Number)
+{
+	unsigned char Unit_Digit,Tenth_Digit,Matrix_Column;
+	Unit_Digit=Number%10u;
+	Tenth_Digit=Number/10u;
+	for(Matrix_Column=0;Matrix_Column<Column_Numbers;Matrix_Column++)
+	{
+		ACT_PORT=Active_Pin[Matrix_Column];
+		SECS_PORT=((Numbers_To_Display[Tenth_Digit][Matrix_Column])<<4)|(Numbers_To_Display[Unit_Digit][Matrix_Column]);
+		_delay_us(150);
+	}
+	SECS_PORT=0x00;
+}
+
 void Display_MINs(unsigned char Number)
 {
 	unsigned char Unit_Digit,Tenth_Digit,Matrix_Column;
@@ -39,10 +53,11 @@ void Display_MINs(unsigned char Number)
 	Tenth_Digit=Number/10u;  
 	for(Matrix_Column=0;Matrix_Column<Column_Numbers;Matrix_Column++)
 	{
-		PORTC=Active_Pin[Matrix_Column];
-		PORTD=((Numbers_To_Display[Tenth_Digit][Matrix_Column])<<4)|(Numbers_To_Display[Unit_Digit][Matrix_Column]);
+		ACT_PORT=Active_Pin[Matrix_Column];
+		MINS_PORT=((Numbers_To_Display[Tenth_Digit][Matrix_Column])<<4)|(Numbers_To_Display[Unit_Digit][Matrix_Column]);
 		_delay_us(150);
 	}	
+	MINS_PORT=0x00;
 }
 
 void Display_HRs(unsigned char Number)
@@ -52,10 +67,11 @@ void Display_HRs(unsigned char Number)
 	Tenth_Digit=Number/10u;  
 	for(Matrix_Column=0;Matrix_Column<Column_Numbers;Matrix_Column++)
 	{
-		PORTA=Active_Pin[Matrix_Column];
-		PORTB=((Numbers_To_Display[Tenth_Digit][Matrix_Column])<<4)|(Numbers_To_Display[Unit_Digit][Matrix_Column]);
+		ACT_PORT=Active_Pin[Matrix_Column];
+		HRS_PORT=((Numbers_To_Display[Tenth_Digit][Matrix_Column])<<4)|(Numbers_To_Display[Unit_Digit][Matrix_Column]);
 		_delay_us(150);
 	}
+	HRS_PORT=0x00;
 }
 
 void Clock_Run(void)
@@ -66,10 +82,11 @@ void Clock_Run(void)
 		{
 			for (Seconds=0;Seconds<60;Seconds++)
 			{
-				for(Adjustment_Delay=0;Adjustment_Delay<416;Adjustment_Delay++)
+				for(Adjustment_Delay=0;Adjustment_Delay<278;Adjustment_Delay++)
 				{
 					Display_HRs(Hours);
 					Display_MINs(Minutes);
+					Display_Secs(Seconds);
 				}
 			}
 			

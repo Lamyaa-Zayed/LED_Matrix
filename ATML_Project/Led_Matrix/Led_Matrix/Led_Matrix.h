@@ -21,6 +21,9 @@
 #define myDDRB *((volatile unsigned char *const)0x37)
 #define myPORTB *((volatile unsigned char *const)0x38)
 
-
+#define  HRS_PORT	myPORTB
+#define  MINS_PORT	myPORTD
+#define  SECS_PORT	myPORTC
+#define  ACT_PORT	myPORTA 
 
 #endif /* LED_MATRIX_H_ */
