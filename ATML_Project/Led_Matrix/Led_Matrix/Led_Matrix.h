@@ -26,4 +26,13 @@
 #define  SECS_PORT	myPORTC
 #define  ACT_PORT	myPORTA 
 
+
+#define BCD_Numbers 10
+#define  Column_Numbers 8
+#define Adjustment_Delay_Number 278     //(1s/(150us*8*8*8))
+
+#define  LED_Matrix_OFF 0x00
+#define  PORT_OUTPUT 0xff
+
+
 #endif /* LED_MATRIX_H_ */
